@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.0]
+### Added
+- New pathfindings functions: `BFS`, `Modified Dijkstra` (the best path is that with the highest communication rate)
+### Updates
+- We updated test section - divided for test for graph structure and tests for algorithms
+
 ## [0.1.0]
 ### Added
 - Core C implementation of the graph structure (`Graph`, `Vertex`, `Edge`).

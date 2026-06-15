@@ -16,9 +16,17 @@ cdef extern from "graph.h":
     int get_id_by_name(Graph* graph, const char* name)
 
 cdef extern from "algorithms.h":
+    ctypedef struct PathResult:
+        int* path
+        int path_length
+        int metric
+
     int get_most_central_object(Graph* graph, int target_type)
     int get_busiest_object(Graph* graph, int target_type)
     int get_best_collaborator(Graph* graph, int person_id, int target_type)
+    
+    PathResult get_bfs_shortest_path(Graph* graph, int start_id, int end_id)
+    PathResult get_dijkstra_shortest_path(Graph* graph, int start_id, int end_id)
 
 cdef class KnowNetGraph:
     cdef Graph* _c_graph 
@@ -78,3 +86,43 @@ cdef class KnowNetGraph:
 
     def best_collaborator(self, int person_id, str target_type="ALL"):
         return get_best_collaborator(self._c_graph, person_id, self._parse_type(target_type))
+
+    def shortest_path(self, str start_name, str end_name, str method="bfs"):
+        """
+        It finds the shortest path between two nodes.
+        method: "bfs" (number of people along the way) or "dijkstra" (traffic bottleneck)
+        """
+        cdef int start_id = self.get_id(start_name)
+        cdef int end_id = self.get_id(end_name)
+
+        if start_id == -1:
+            raise ValueError(f"Not found vertex: {start_name}")
+        if end_id == -1:
+            raise ValueError(f"Not found vertex: {end_name}")
+
+        cdef PathResult result
+        
+        if method.lower() == "bfs":
+            result = get_bfs_shortest_path(self._c_graph, start_id, end_id)
+        elif method.lower() == "dijkstra":
+            result = get_dijkstra_shortest_path(self._c_graph, start_id, end_id)
+        else:
+            raise ValueError("Method should be 'bfs' or 'dijkstra'.")
+
+        # if ther is no connection
+        if result.metric == -1:
+            return {"metric": -1, "path": []}
+
+
+        py_path = []
+        for i in range(result.path_length):
+            py_path.append(result.path[i])
+            
+
+        if result.path is not NULL:
+            free(result.path)
+
+        return {
+            "metric": result.metric,
+            "path": py_path
+        }
