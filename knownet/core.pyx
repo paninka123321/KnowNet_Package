@@ -138,7 +138,7 @@ cdef class KnowNetGraph:
 
 
     def get_specialists(self, str specialty):
-        """The list of experts that are specialist_at.
+        """The list of experts that are specialist_at: specialty.
         Warning: Ensure that you provide correct case-sensitive name."""
         cdef bytes py_bytes_spec = specialty.encode('utf-8')
         cdef int count = 0
