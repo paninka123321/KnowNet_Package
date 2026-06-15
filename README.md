@@ -2,6 +2,8 @@
 
 **Student Name:** Paulina Kulczyk
 **Student ID:** 305817
+
+
 **Keywords:** organizational structure, graph representation, recomendation systems 
 
 ## Project Description
