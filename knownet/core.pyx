@@ -28,6 +28,15 @@ cdef extern from "algorithms.h":
     PathResult get_bfs_shortest_path(Graph* graph, int start_id, int end_id)
     PathResult get_dijkstra_shortest_path(Graph* graph, int start_id, int end_id)
 
+    ctypedef struct NodeInfo:
+            int id
+            const char* name
+    
+    NodeInfo* find_specialists(Graph* graph, const char* specialty, int* out_count)
+    NodeInfo* get_department_employees(Graph* graph, int dept_id, int* out_count)
+
+    double get_cosine_similarity(Graph* graph, int id_a, int id_b)
+
 cdef class KnowNetGraph:
     cdef Graph* _c_graph 
 
@@ -126,3 +135,57 @@ cdef class KnowNetGraph:
             "metric": result.metric,
             "path": py_path
         }
+
+
+    def get_specialists(self, str specialty):
+        """The list of experts that are specialist_at.
+        Warning: Ensure that you provide correct case-sensitive name."""
+        cdef bytes py_bytes_spec = specialty.encode('utf-8')
+        cdef int count = 0
+        
+        cdef NodeInfo* results = find_specialists(self._c_graph, py_bytes_spec, &count)
+        
+        if count == 0 or results is NULL:
+            print(f'There are no specialist in this field in your comapny')
+            return []
+            
+        py_results = []
+        for i in range(count):
+            py_results.append({
+                "id": results[i].id,
+                "name": results[i].name.decode('utf-8')
+            })
+            
+        free(results)
+        return py_results
+
+    def get_department_employees(self, str dept_name):
+        """The lists of experts that work in dept_name.
+        Warning: Ensure that you provide correct case-sensitive name."""
+        cdef int dept_id = self.get_id(dept_name)
+        if dept_id == -1:
+            raise ValueError(f"Couldn't find the department: {dept_name}")
+            
+        cdef int count = 0
+        cdef NodeInfo* results = get_department_employees(self._c_graph, dept_id, &count)
+        
+        if count == 0 or results is NULL:
+            return []
+            
+        py_results = []
+        for i in range(count):
+            py_results.append({
+                "id": results[i].id,
+                "name": results[i].name.decode('utf-8')
+            })
+            
+        free(results)
+        return py_results
+    
+    def calculate_similarity(self, str name_a, str name_b):
+        """Calculates cosine similarity between name_a and name_b. 
+        If they have some the same connections in graph then similarity > 0."""
+        cdef int id_a = self.get_id(name_a)
+        cdef int id_b = self.get_id(name_b)
+        if id_a == -1 or id_b == -1: raise ValueError("Invalid names")
+        return round(get_cosine_similarity(self._c_graph, id_a, id_b), 4)

@@ -11,9 +11,11 @@ extensions = [
             "c_src/centrality.c",
             "c_src/collaborators.c",
             "c_src/bfs.c",            
-            "c_src/dijkstra.c"
+            "c_src/dijkstra.c",
+            "c_src/find_specialist.c",
+            "c_src/cosine_similarity.c",
         ],
-        include_dirs=["c_src"]               # for .h files
+        include_dirs=["c_src"]          # for .h files
     )
 ]
 

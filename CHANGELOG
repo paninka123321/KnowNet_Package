@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0]
+### Added
+- Cosine similarity counting between vertex (they are similar if they have edges to the same vertex)
+
+## [0.3.0]
+### Added
+- Functions to search for specialist in the given speciality or department
+
 ## [0.2.0]
 ### Added
 - New pathfindings functions: `BFS`, `Modified Dijkstra` (the best path is that with the highest communication rate)
