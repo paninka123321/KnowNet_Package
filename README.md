@@ -1,4 +1,4 @@
-# KnowNet - package for Organizational Knowledge Network Analysis 🌐
+# KnowNet - Organizational Knowledge Network Analysis 🌐
 
 **Student Name:** Paulina Kulczyk
 **Student ID:** 305817
