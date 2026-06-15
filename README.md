@@ -17,6 +17,16 @@ I successfully implemented features that answer crucial business questions:
 * **Who is the busiest entity?** (Traffic analysis)
 * **Who are the closest experts in a specific field?** (Cosine Similarity)
 
+## Installation
+Ensure you have `gcc` (or another C compiler) and Python 3.8+ installed.
+
+```bash
+git clone [repo_link]
+cd KnowNet
+pip install pytest cython setuptools
+pip install -e .
+```
+
 ### Sample code & output
 ```bash
 from knownet.core import KnowNetGraph
@@ -44,15 +54,6 @@ print(f"Similarity between Alice and Bob: {similarity}")
 # Output: 
 # Found: [{'id': 0, 'name': 'Alice'}]
 # Similarity between Alice and Bob: 1.0
-```
-## Installation
-Ensure you have `gcc` (or another C compiler) and Python 3.8+ installed.
-
-```bash
-git clone [repo_link]
-cd KnowNet
-pip install pytest cython setuptools
-pip install -e .
 ```
 
 ## Future Plans
