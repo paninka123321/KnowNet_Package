@@ -1,0 +1,9 @@
+# Changelog
+
+## [0.1.0]
+### Added
+- Core C implementation of the graph structure (`Graph`, `Vertex`, `Edge`).
+- Algorithms in C: `most_central`, `busiest`, `best_collaborator`.
+- Cython wrapper binding C structures to Python class `KnowNetGraph`.
+- Pytest suite covering initialization and algorithm correctness.
+- Setup configuration (`pyproject.toml`, `setup.py`) for local installation.
