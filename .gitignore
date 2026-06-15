@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.pytest_cache/
+
+# Cython & C compilation like .o
+*.so
+*.o
+*.out
+build/
+knownet.egg-info/
+tests_in_c/test_graph
+
+# Others
+.DS_Store
